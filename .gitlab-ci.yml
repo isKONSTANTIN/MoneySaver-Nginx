@@ -1,0 +1,4 @@
+deploy:
+  stage: deploy
+  script:
+    - sudo BRANCH=master ./push.sh

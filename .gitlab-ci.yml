@@ -1,4 +1,12 @@
-deploy:
-  stage: deploy
+stages:
+    - build
+    - build-docker
+
+build-docker:
+  stage: build-docker
+  image: docker:stable
+
   script:
-    - sudo BRANCH=master ./push.sh
+    - docker login -u ${REGISTRY_USERNAME} -p ${REGISTRY_PASS} https://lab.knrg.su:5000
+    - docker build -t lab.knrg.su:5000/iskonstantin/moneysaver-nginx:${CI_COMMIT_BRANCH} .
+    - docker push lab.knrg.su:5000/iskonstantin/moneysaver-nginx:${CI_COMMIT_BRANCH}
